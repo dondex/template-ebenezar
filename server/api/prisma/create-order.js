@@ -15,4 +15,15 @@ export default defineEventHandler(async (event) => {
       country: body.country,
     },
   });
+
+  body.products.forEach(async (prod) => {
+    await prisma.orderItem.create({
+      data: {
+        orderId: order.id,
+        productId: Number(prod.id),
+      },
+    });
+  });
+
+  return order;
 });
